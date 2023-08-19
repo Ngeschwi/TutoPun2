@@ -13,7 +13,20 @@ public class RoomListingMenu : MonoBehaviourPunCallbacks
     private RoomListing _roomListingPrefab;
     
     private List<RoomListing> _listings = new List<RoomListing>();
+    private RoomCanvases _roomCanvases;
     
+    public void FirstInitialize(RoomCanvases canvases)
+    {
+        _roomCanvases = canvases;
+    }
+    
+    public override void OnJoinedRoom()
+    {
+        _roomCanvases.CurrentRoomCanvas.Show();
+        _content.DestroyChildren();
+        _listings.Clear();
+    }
+
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         foreach (RoomInfo info in roomList)
@@ -41,7 +54,6 @@ public class RoomListingMenu : MonoBehaviourPunCallbacks
                 }
                 else
                 {
-                    // Modify listing
                     _listings[index].SetRoomInfo(info);
                 }
             }

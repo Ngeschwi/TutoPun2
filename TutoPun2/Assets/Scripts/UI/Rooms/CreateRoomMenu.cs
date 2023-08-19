@@ -5,10 +5,17 @@ using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CreateRoomMenu : MonoBehaviour
+public class CreateRoomMenu : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     private Text _roomName;
+    
+    private RoomCanvases _roomsCanvases;
+
+    public void FirstInitialize(RoomCanvases canvases)
+    {
+        _roomsCanvases = canvases;
+    }
     
     public void OnClick_CreateRoom()
     {
@@ -23,13 +30,16 @@ public class CreateRoomMenu : MonoBehaviour
         PhotonNetwork.JoinOrCreateRoom(_roomName.text, roomOptions, TypedLobby.Default);
     }
     
-    public void OnCreatedRoom()
+    public override void OnCreatedRoom()
     {
         Debug.Log("Created room successfully.", this);
+        _roomsCanvases.CurrentRoomCanvas.Show();
     }
     
-    public void OnCreateRoomFailed(short returnCode, string message)
+    public override void OnCreateRoomFailed(short returnCode, string message)
     {
         Debug.Log("Failed to create room, " + message, this);
     }
+    
+    
 }

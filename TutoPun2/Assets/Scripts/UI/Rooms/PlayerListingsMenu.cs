@@ -88,4 +88,15 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
             _listings.RemoveAt(index);
         }
     }
+    
+    public void OnClick_StartGame()
+    {
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            return;
+        }
+        PhotonNetwork.CurrentRoom.IsOpen = false;
+        PhotonNetwork.CurrentRoom.IsVisible = false;
+        PhotonNetwork.LoadLevel(1);
+    }
 }
